@@ -105,6 +105,19 @@ void sh_cd(char* args[]) {
     fprintf(stderr, "cd: %s: %s\n", dir, strerror(errno));
 }
 
+void sh_clear(void) {
+  pid_t pid = fork();
+  if (pid == 0) {
+    execlp("clear", "clear", (char*)NULL); // replace the current process with new image by using clear
+    perror("clear");
+    _exit(127); // clean out - 127 command not found
+  } else if (pid > 0) {
+    int st; (void)waitpid(pid, &st, 0);
+  } else {
+    perror("fork");
+  }
+}
+
 // END HELPER
 
 int main(void) {
