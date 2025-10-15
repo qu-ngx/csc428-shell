@@ -35,6 +35,35 @@ int split_args(char *line, char* argv[], int maxv) { // argument vector to store
   return argc
 }
 
+// define all shell supports
+int is_builtin(const char *cmd) {
+  return cmd && 
+  (strcmp(cmd, "exit") == 0 || 
+   strcmp(cmd, "echo") == 0 ||
+   strcmp(cmd, "pwd") == 0  ||
+   strcmp(cmd, "cd") == 0   ||
+   strcmp(cmd, "clear") == 0);
+}
+
+int is_number(const char* s) {
+  if (s == NULL || *s == "\0") return 0;
+  if (*s == '+' || *s == "-") s++;
+
+  if (*s == '\0') return 0;
+
+  while (*s != '\0') {
+    unsigned char ch = (unsigned char) *s;
+    if (!isdigit(ch)) {
+      return 0;
+    }
+    s++;
+  }
+  
+  return 1;
+}
+
+// END HELPER
+
 int main(void) {
   char* line = NULL;
   size_t cap = 0;
