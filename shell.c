@@ -71,6 +71,16 @@ void sh_exit(char* args[]) {
   exit(code);
 }
 
+void sh_echo(char* args[]) {
+  int i = 0;
+  while (args[i]) {
+    if (i) putchar(' ');
+    fputs(args[i], stdout);
+    i++;
+  }
+  putchar("\n");
+}
+
 // END HELPER
 
 int main(void) {
