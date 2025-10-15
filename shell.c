@@ -81,6 +81,14 @@ void sh_echo(char* args[]) {
   putchar("\n");
 }
 
+void sh_pwd(void) {
+  char buf[4096];
+  if (getcwd(buf, sizeof(buf)))
+    puts(buf);
+  else
+    perror("pwd")
+}
+
 // END HELPER
 
 int main(void) {
