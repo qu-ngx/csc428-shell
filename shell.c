@@ -89,6 +89,22 @@ void sh_pwd(void) {
     perror("pwd")
 }
 
+void sh_cd(char* args[]) {
+  const char *dir = args[0];
+  if (!dir) {
+    fprintf(stderr, "cd: please specifiy a directory");
+    return;
+  }
+  
+  if (strcmp(dir, "~") == 0) {
+    const char* home = getenv("HOME");
+    if (home) dir = home;
+  }
+  
+  if (chdir(dir) != 0)
+    fprintf(stderr, "cd: %s: %s\n", dir, strerror(errno));
+}
+
 // END HELPER
 
 int main(void) {
