@@ -62,6 +62,15 @@ int is_number(const char* s) {
   return 1;
 }
 
+void sh_exit(char* args[]) {
+  int code = 0;
+  if (args[0] && is_number(args[0]))
+    code = atoi(args[0]);
+  else if (args[0])
+    code = 1;
+  exit(code);
+}
+
 // END HELPER
 
 int main(void) {
