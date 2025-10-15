@@ -118,6 +118,24 @@ void sh_clear(void) {
   }
 }
 
+void run_child(char* cmd, char* argv[]) {
+  pid_t pid = fork();
+  if (pid < 0) {
+    perror("fork");
+    return;
+  }
+
+  if (pid == 0) {
+    execvp(cmd, argv);
+    fprintf(stderr, "%s: command not found\n", cmd);
+    _exit(127);
+  }
+
+  int status = 0;
+  if (waitpid(pid, &status, 0) < 0)
+    perror("waitpid");
+}
+
 // END HELPER
 
 int main(void) {
@@ -151,5 +169,14 @@ int main(void) {
     char* mode = argv[0];
 
     // TODO: COMPARE MODE: Implement this every mode + invalid mode
+    if (strcmp(mode, "exit") == 0) sh_exit(&argv[1]);
+    else if (strcmp(mode, "echo") == 0) sh_echo(&argv[1]);
+    else if (strcmp(mode, "pwd") == 0) sh_pwd();
+    else if (strcmp(mode, "cd") == 0)  sh_cd(&argv[1]);
+    else if (strcmp(mode, "clear") == 0) sh_clear();
+    else run_child(mode, argv);
   }
+
+  free(line);
+  return 0;
 }
