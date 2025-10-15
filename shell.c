@@ -11,6 +11,30 @@
 #define MAX_ARGS 256
 #define PATH_SEP ':'
 
+void trim_newline(char* s) {
+  if (!s) return;
+  size_t n = strlen(s);
+  if (n && s[n - 1] == "\n") {
+    s[n - 1] = '\0';
+  } // remove the trailing end (\n) and mark it as NULL (\0) to terminate the command
+}
+
+int split_args(char *line, char* argv[], int maxv) { // argument vector to store all arguments in line
+  int argc = 0;
+  char* saveptr = NULL;
+  char* tok = strtok_r(line, " \t", &saveptr); // use strok to tokenize the string and store it to saveptr
+
+  // traverse token like a linkedlist 
+  while (tok != NULL && argc < maxv - 1) {
+    argv[argc] = tok;
+    tok = strtok_r(NULL, " \t", &saveptr);
+    argc++;
+  }
+
+  argv[argc] = NULL;
+  return argc
+}
+
 int main(void) {
   char* line = NULL;
   size_t cap = 0;
