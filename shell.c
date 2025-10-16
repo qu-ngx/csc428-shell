@@ -40,13 +40,6 @@ int split_args(char *line, char *argv[],
   return argc;
 }
 
-// define all shell supports
-int is_builtin(const char *cmd) {
-  return cmd && (strcmp(cmd, "exit") == 0 || strcmp(cmd, "echo") == 0 ||
-                 strcmp(cmd, "pwd") == 0 || strcmp(cmd, "cd") == 0 ||
-                 strcmp(cmd, "clear") == 0);
-}
-
 int is_number(const char *s) {
   if (s == NULL || *s == '\0')
     return 0;
@@ -127,24 +120,6 @@ void sh_clear(void) {
   } else {
     perror("fork");
   }
-}
-
-void run_child(char *cmd, char *argv[]) {
-  pid_t pid = fork();
-  if (pid < 0) {
-    perror("fork");
-    return;
-  }
-
-  if (pid == 0) {
-    execvp(cmd, argv);
-    fprintf(stderr, "%s: command not found\n", cmd);
-    _exit(127);
-  }
-
-  int status = 0;
-  if (waitpid(pid, &status, 0) < 0)
-    perror("waitpid");
 }
 
 // END HELPER
