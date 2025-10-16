@@ -5,11 +5,7 @@
 
 # How to run:
 
-- Step 1: Compile the code with clang and gcc
-- Step 2: Run the binaries with output file shell
-
-```bash
-gcc -std=c17 -Wall -Wextra -O2 shell.c -o shell
-./shell
-
-```
+- Step 1: Open terminal and compile the code with Make using ```make```
+- Step 2: Run the binaries with ```make run```
+- Step 3: Try out some commands in shell like exit, echo, cd..
+- Step 4: ```make clean``` to clean up
